@@ -1,5 +1,5 @@
 from django.db import models
-from shop.models.defaults.bases import BaseProduct
+from shop.models_bases import BaseProduct
 from mptt.fields import TreeForeignKey, TreeManyToManyField
 from shop_categories.utils import get_category_model_string
 
@@ -9,11 +9,11 @@ class CategoryProductBase(BaseProduct):
 
     class Meta:
         abstract = True
-        
-    @models.permalink    
+
+    @models.permalink
     def get_absolute_url(self):
         return('product_detail', (), {'slug':self.slug, 'path': self.main_category.path})
-        
+
     def save(self, *args, **kwargs):
         super(CategoryProductBase, self).save(*args, **kwargs)
         self.additional_categories.add(self.main_category)
